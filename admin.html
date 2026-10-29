@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Editor · Eleven moons</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230C1033'/%3E%3Ccircle cx='16' cy='16' r='9' fill='%23F5EFDF'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0C1033; --deep:#151A49; --moon:#F5EFDF; --moon-2:rgba(245,239,223,.72); --moon-3:rgba(245,239,223,.45);
+  --line:rgba(245,239,223,.14); --line-strong:rgba(245,239,223,.3); --rose:#F29BB2; --lantern:#F6C36F;
+  --serif:"Fraunces",Georgia,serif; --hand:"Caveat",cursive;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(110% 60% at 50% -10%,#232A6B,transparent 60%),var(--night);color:var(--moon);
+  font-family:var(--serif);font-weight:350;font-size:15.5px;line-height:1.6}
+.wrap{max-width:900px;margin:0 auto;padding:0 1.1rem 6rem}
+h1{font-weight:400;font-variation-settings:"SOFT" 100;font-size:2.3rem;line-height:1.1;margin:2rem 0 .3rem}
+.sub{color:var(--moon-2);margin:0 0 2rem}
+h2{font-weight:400;font-variation-settings:"SOFT" 100;font-size:1.4rem;margin:0 0 .25rem}
+.hint{font-size:.88rem;color:var(--moon-2);margin:0 0 1.1rem;font-style:italic}
+.card{background:rgba(21,26,73,.55);border:1px solid var(--line);border-radius:12px;padding:1.3rem;margin-bottom:1rem}
+label{display:block;font-size:.82rem;color:var(--rose);margin:0 0 .3rem}
+input,textarea{width:100%;background:rgba(12,16,51,.7);color:var(--moon);border:1px solid var(--line);border-radius:8px;
+  padding:.6rem .75rem;font-family:var(--serif);font-size:.98rem;font-weight:350}
+input:focus,textarea:focus{outline:2px solid var(--rose);outline-offset:1px;border-color:transparent}
+textarea{resize:vertical;min-height:90px;line-height:1.55}
+.row{display:grid;gap:.85rem;margin-bottom:.85rem}
+.two{grid-template-columns:1fr 1fr}.three{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:640px){.two,.three{grid-template-columns:1fr}}
+button{font-family:var(--serif);font-size:.9rem;cursor:pointer;background:transparent;color:var(--moon);
+  border:1px solid var(--line-strong);border-radius:999px;padding:.55rem 1.15rem;transition:background .2s,border-color .2s}
+button:hover{background:rgba(242,155,178,.12);border-color:var(--rose)}
+button.solid{background:var(--rose);color:#3A1027;border-color:var(--rose);font-weight:500}
+button.solid:hover{background:#F7B6C6}
+button.tiny{padding:.25rem .7rem;font-size:.8rem}
+button.danger{color:#FFB3C6;border-color:rgba(242,155,178,.35)}
+.actions{display:flex;gap:.55rem;flex-wrap:wrap;align-items:center}
+.item{border:1px solid var(--line);border-radius:10px;padding:.85rem;margin-bottom:.7rem;background:rgba(12,16,51,.45)}
+.item-head{display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin-bottom:.55rem}
+.item-head b{font-family:var(--hand);font-size:1.35rem;font-weight:600;color:var(--rose)}
+.photo-item{display:grid;grid-template-columns:76px 1fr;gap:.9rem;align-items:start}
+.thumb{width:76px;aspect-ratio:1;border-radius:4px;overflow:hidden;background:#FBF6EC;padding:4px 4px 0;display:grid;place-items:center}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.drop{border:1.5px dashed var(--line-strong);border-radius:10px;padding:1.4rem;text-align:center;cursor:pointer;color:var(--moon-2);transition:background .2s,border-color .2s}
+.drop:hover,.drop.over{background:rgba(242,155,178,.08);border-color:var(--rose)}
+.log{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.78rem;line-height:1.7;background:rgba(0,0,0,.35);
+  border:1px solid var(--line);border-radius:8px;padding:.85rem;max-height:240px;overflow:auto;white-space:pre-wrap;margin-top:1rem;color:var(--moon-2)}
+.log b{color:var(--lantern);font-weight:400}.log i{color:#FF9DB5;font-style:normal}
+.pill{display:inline-block;font-size:.75rem;border:1px solid var(--line-strong);border-radius:999px;padding:.05rem .55rem;color:var(--moon-2);vertical-align:middle}
+.bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;
+  background:rgba(12,16,51,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:.75rem 1.1rem;margin:0 -1.1rem}
+.bar a{color:var(--moon);font-style:italic;text-decoration:underline;text-underline-offset:.25em;text-decoration-color:var(--line-strong)}
+.note{border-left:2px solid var(--rose);padding-left:.85rem;font-size:.88rem;color:var(--moon-2);margin:.6rem 0 0}
+.count{font-size:.82rem;color:var(--moon-3)}
+.check{display:flex;gap:.55rem;align-items:center;font-size:.95rem;color:var(--moon);margin:0 0 1rem}
+.check input{width:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <div class="actions">
+      <button class="solid" id="publish" type="button">Publish to GitHub</button>
+      <button id="save-draft" type="button">Save draft here</button>
+      <span class="count" id="draft-note"></span>
+    </div>
+    <a href="index.html?preview" target="_blank" rel="noopener">Preview the site</a>
+  </div>
+
+  <h1>Eleven moons editor</h1>
+  <p class="sub">Change anything below, add photos, then press <b>Publish to GitHub</b>. The live site updates a minute or two later.</p>
+
+  <!-- CONNECTION -->
+  <section class="card">
+    <h2>GitHub connection</h2>
+    <p class="hint">Needed once. The token stays in this browser and is never written into the site.</p>
+    <div class="row three">
+      <div><label for="gh-owner">GitHub username</label><input id="gh-owner" placeholder="va-ward"></div>
+      <div><label for="gh-repo">Repository</label><input id="gh-repo" placeholder="monthsary"></div>
+      <div><label for="gh-branch">Branch</label><input id="gh-branch" value="main"></div>
+    </div>
+    <div class="row"><div><label for="gh-token">Personal access token</label><input id="gh-token" type="password" placeholder="github_pat_..." autocomplete="off"></div></div>
+    <label class="check"><input type="checkbox" id="remember" checked> Remember on this device</label>
+  </section>
+
+  <!-- BASICS -->
+  <section class="card">
+    <h2>The moon</h2>
+    <p class="hint">The first thing she sees.</p>
+    <div class="row two">
+      <div><label for="f-greeting">Line above the headline</label><input id="f-greeting"></div>
+      <div><label for="f-headline">Headline</label><input id="f-headline"></div>
+    </div>
+    <div class="row"><div><label for="f-heroline">Opening line</label><textarea id="f-heroline" style="min-height:60px"></textarea></div></div>
+    <div class="row two">
+      <div><label for="f-together">Together since (for the live count)</label><input id="f-together" type="date"></div>
+      <div><label for="f-closing">Footer line</label><input id="f-closing"></div>
+    </div>
+  </section>
+
+  <!-- SEAL -->
+  <section class="card">
+    <h2>The seal</h2>
+    <p class="hint">Keeps everything hidden until the moment you choose. She sees the moon and a countdown, then it opens by itself.</p>
+    <label class="check"><input type="checkbox" id="f-seal-on"> Keep it sealed until then</label>
+    <div class="row two">
+      <div><label for="f-seal-date">Opens on</label><input id="f-seal-date" type="date"></div>
+      <div><label for="f-seal-time">At</label><input id="f-seal-time" type="time"></div>
+    </div>
+    <div class="row"><div><label for="f-seal-line">Line shown while it is sealed</label><input id="f-seal-line"></div></div>
+    <p class="hint" id="seal-status" style="margin:0"></p>
+    <p class="note">It opens on her clock, wherever she is. <b>Preview the site</b> up the top always shows you everything. This hides the page, it doesn't encrypt it: the words sit in content.js in a public repo.</p>
+  </section>
+
+  <!-- LETTER -->
+  <section class="card">
+    <h2>The letter</h2>
+    <p class="hint">Under the wax seal. Leave a blank line between paragraphs.</p>
+    <div class="row two">
+      <div><label for="f-l-greeting">Greeting</label><input id="f-l-greeting"></div>
+      <div><label for="f-l-sign">Sign-off (handwritten)</label><input id="f-l-sign"></div>
+    </div>
+    <div class="row"><div><label for="f-l-body">Letter</label><textarea id="f-l-body" style="min-height:240px"></textarea></div></div>
+  </section>
+
+  <!-- MONTHS -->
+  <section class="card">
+    <h2>Month by month <span class="pill" id="month-count">0</span></h2>
+    <p class="hint">One note per moon, in order. Keep them short; two sentences is plenty.</p>
+    <div id="months"></div>
+    <div class="actions" style="margin-bottom:1.2rem"><button class="tiny" id="add-month" type="button">Add a month</button></div>
+    <div class="item">
+      <div class="item-head"><b>The moon still to come</b></div>
+      <p class="hint" style="margin-bottom:.7rem">Lights up once all the others are full.</p>
+      <div class="row two">
+        <div><label for="f-n-month">Month</label><input id="f-n-month"></div>
+        <div><label for="f-n-title">Title</label><input id="f-n-title"></div>
+      </div>
+      <textarea id="f-n-text" style="min-height:64px"></textarea>
+    </div>
+  </section>
+
+  <!-- PHOTOS -->
+  <section class="card">
+    <h2>Photos <span class="pill" id="photo-count">0</span></h2>
+    <p class="hint">The polaroid stack. Photos are shrunk automatically, so drop in the originals. Short captions fit the polaroid best.</p>
+    <div class="drop" id="drop">Choose photos, or drag them in here<input type="file" id="file" accept="image/*" multiple hidden></div>
+    <div id="photos" style="margin-top:1rem"></div>
+  </section>
+
+  <!-- HEART -->
+  <section class="card">
+    <h2>Hold the heart</h2>
+    <div class="row two">
+      <div><label for="f-h-hint">Before she presses</label><input id="f-h-hint"></div>
+      <div><label for="f-h-holding">While it fills</label><input id="f-h-holding"></div>
+    </div>
+    <div class="row two">
+      <div><label for="f-h-over">Past 100%</label><input id="f-h-over"></div>
+      <div><label for="f-h-early">If she lets go early</label><input id="f-h-early"></div>
+    </div>
+    <div class="row"><div><label for="f-h-done">When it overflows</label><input id="f-h-done"></div></div>
+  </section>
+
+  <!-- JAR -->
+  <section class="card">
+    <h2>The jar <span class="pill" id="reason-count">0</span></h2>
+    <div class="row"><div><label for="f-j-intro">Line under the heading</label><input id="f-j-intro"></div></div>
+    <label for="f-reasons">Reasons, one per line. The last one always comes out last.</label>
+    <textarea id="f-reasons" style="min-height:320px"></textarea>
+  </section>
+
+  <!-- COUPONS -->
+  <section class="card">
+    <h2>Scratch cards <span class="pill" id="coupon-count">0</span></h2>
+    <p class="hint">Three fits best. The heading on the site says "Three little promises", so change both if you change the number.</p>
+    <div id="coupons"></div>
+    <div class="actions"><button class="tiny" id="add-coupon" type="button">Add a card</button></div>
+  </section>
+
+  <!-- QUESTION -->
+  <section class="card">
+    <h2>The question</h2>
+    <div class="row"><div><label for="f-q-ask">Question</label><input id="f-q-ask"></div></div>
+    <div class="row three">
+      <div><label for="f-q-yes">Yes button</label><input id="f-q-yes"></div>
+      <div><label for="f-q-no">No button</label><input id="f-q-no"></div>
+      <div><label for="f-q-give">When No finally gives up</label><input id="f-q-give"></div>
+    </div>
+    <div class="row"><div><label for="f-q-dodges">What the No button says each time it runs away (one per line)</label><textarea id="f-q-dodges" style="min-height:120px"></textarea></div></div>
+    <div class="row two">
+      <div><label for="f-q-rtitle">After she says yes: big line</label><input id="f-q-rtitle"></div>
+      <div><label for="f-q-reply">After she says yes: small line</label><input id="f-q-reply"></div>
+    </div>
+  </section>
+
+  <!-- LANTERN -->
+  <section class="card">
+    <h2>The lantern</h2>
+    <div class="row two">
+      <div><label for="f-w-ph">Placeholder in the wish box</label><input id="f-w-ph"></div>
+      <div><label for="f-w-sent">Line after it floats away</label><input id="f-w-sent"></div>
+    </div>
+  </section>
+
+  <!-- MUSIC -->
+  <section class="card">
+    <h2>Music</h2>
+    <p class="hint">Right now it plays the song from the birthday site. Drop a different mp3 here to change it.</p>
+    <div class="drop" id="drop-music">Choose a song, or drag the file in here<input type="file" id="file-music" accept="audio/*" hidden></div>
+    <p class="hint" id="music-status" style="margin:.7rem 0 .9rem"></p>
+    <div class="row two">
+      <div><label for="f-m-url">File or link</label><input id="f-m-url" placeholder="music/our-song.mp3"></div>
+      <div><label for="f-m-title">Button label</label><input id="f-m-title" placeholder="Play our song"></div>
+    </div>
+    <div class="actions">
+      <button class="tiny" id="test-music" type="button">Test the song</button>
+      <button class="tiny danger" id="clear-music" type="button">Remove the song</button>
+    </div>
+    <p class="note">Spotify and YouTube links won't work here. Those are web pages, not audio files.</p>
+  </section>
+
+  <!-- PUBLISH -->
+  <section class="card">
+    <h2>Publish</h2>
+    <div class="actions">
+      <button class="solid" id="publish2" type="button">Publish to GitHub</button>
+      <button id="download" type="button">Download content.js instead</button>
+      <button id="reload" type="button">Reload from the live site</button>
+    </div>
+    <div class="log" id="log">Ready.</div>
+  </section>
+</div>
+
+<script>
+(function(){
+"use strict";
+var LS_DRAFT="moons-admin-draft", LS_CONF="moons-admin-conf";
+var state=null, pendingAudio=null, previews=new WeakMap();
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function store(k,v){try{v===null?localStorage.removeItem(k):localStorage.setItem(k,v);}catch(e){}}
+function read(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function log(msg,cls){
+  var el=document.createElement(cls==="err"?"i":(cls==="ok"?"b":"span"));
+  el.textContent=msg; $("log").appendChild(el); $("log").appendChild(document.createTextNode("\n"));
+  $("log").scrollTop=$("log").scrollHeight;
+}
+function b64utf8(str){var bytes=new TextEncoder().encode(str),bin="";for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin);}
+function lines(v){return String(v||"").split("\n").map(function(s){return s.trim();}).filter(Boolean);}
+
+var BLANK={
+  name:"",together:"",greeting:"",headline:"",heroLine:"",
+  seal:{on:false,opensAt:"",line:""},
+  letter:{greeting:"",body:[],signature:""},
+  months:[],nextMoon:{month:"",title:"",text:""},photos:[],
+  heart:{hint:"",holding:"",over:"",early:"",done:""},
+  reasonsIntro:"",reasons:[],coupons:[],
+  question:{ask:"",yes:"",no:"",dodges:[],giveIn:"",replyTitle:"",reply:""},
+  lantern:{placeholder:"",sent:""},closing:"",music:{url:"",title:""}
+};
+function normalise(s){
+  var o=JSON.parse(JSON.stringify(BLANK));
+  Object.keys(s||{}).forEach(function(k){
+    if(o[k]&&typeof o[k]==="object"&&!Array.isArray(o[k])&&s[k]&&typeof s[k]==="object"&&!Array.isArray(s[k])) o[k]=Object.assign(o[k],s[k]);
+    else o[k]=s[k];
+  });
+  ["months","photos","reasons","coupons"].forEach(function(k){if(!Array.isArray(o[k]))o[k]=[];});
+  if(!Array.isArray(o.letter.body))o.letter.body=[];
+  if(!Array.isArray(o.question.dodges))o.question.dodges=[];
+  return o;
+}
+
+/* ---------- load ---------- */
+function loadConf(){
+  try{var c=JSON.parse(read(LS_CONF)||"{}");
+    $("gh-owner").value=c.owner||""; $("gh-repo").value=c.repo||""; $("gh-branch").value=c.branch||"main"; $("gh-token").value=c.token||"";
+  }catch(e){}
+}
+function saveConf(){
+  if(!$("remember").checked){store(LS_CONF,null);return;}
+  store(LS_CONF,JSON.stringify({owner:$("gh-owner").value.trim(),repo:$("gh-repo").value.trim(),branch:$("gh-branch").value.trim()||"main",token:$("gh-token").value.trim()}));
+}
+function fetchLive(){
+  try{delete window.SITE_CONTENT;}catch(e){window.SITE_CONTENT=undefined;}
+  var s=document.createElement("script");
+  s.src="content.js"+(/^https?:$/.test(location.protocol)?"?v="+Date.now():"");
+  s.onload=function(){
+    if(window.SITE_CONTENT){state=normalise(window.SITE_CONTENT);fill();log("Loaded content.js.","ok");}
+    else{state=normalise({});fill();log("content.js loaded but was empty. Starting from a blank sheet.","err");}
+    s.remove();
+  };
+  s.onerror=function(){state=normalise({});fill();log("No content.js next to this page. Starting from a blank sheet.");s.remove();};
+  document.head.appendChild(s);
+}
+function boot(){
+  loadConf();
+  var d=read(LS_DRAFT);
+  if(d){try{state=normalise(JSON.parse(d));fill();log("Loaded the draft saved in this browser. Press Reload from the live site to throw it away.","ok");return;}catch(e){}}
+  fetchLive();
+}
+
+/* ---------- form <-> state ---------- */
+function splitDate(v){var s=String(v||"");return {d:s.slice(0,10),t:s.slice(11,16)};}
+function fill(){
+  $("f-greeting").value=state.greeting||""; $("f-headline").value=state.headline||""; $("f-heroline").value=state.heroLine||"";
+  $("f-together").value=splitDate(state.together).d; $("f-closing").value=state.closing||"";
+  $("f-seal-on").checked=state.seal.on===true;
+  var sd=splitDate(state.seal.opensAt); $("f-seal-date").value=sd.d; $("f-seal-time").value=sd.t||"00:00";
+  $("f-seal-line").value=state.seal.line||"";
+  $("f-l-greeting").value=state.letter.greeting||""; $("f-l-sign").value=state.letter.signature||"";
+  $("f-l-body").value=(state.letter.body||[]).join("\n\n");
+  $("f-n-month").value=state.nextMoon.month||""; $("f-n-title").value=state.nextMoon.title||""; $("f-n-text").value=state.nextMoon.text||"";
+  $("f-h-hint").value=state.heart.hint||""; $("f-h-holding").value=state.heart.holding||""; $("f-h-over").value=state.heart.over||"";
+  $("f-h-early").value=state.heart.early||""; $("f-h-done").value=state.heart.done||"";
+  $("f-j-intro").value=state.reasonsIntro||""; $("f-reasons").value=(state.reasons||[]).join("\n");
+  var q=state.question; $("f-q-ask").value=q.ask||""; $("f-q-yes").value=q.yes||""; $("f-q-no").value=q.no||""; $("f-q-give").value=q.giveIn||"";
+  $("f-q-dodges").value=(q.dodges||[]).join("\n"); $("f-q-rtitle").value=q.replyTitle||""; $("f-q-reply").value=q.reply||"";
+  $("f-w-ph").value=state.lantern.placeholder||""; $("f-w-sent").value=state.lantern.sent||"";
+  $("f-m-url").value=state.music.url||""; $("f-m-title").value=state.music.title||"";
+  drawMonths(); drawPhotos(); drawCoupons(); counts(); sealStatus();
+}
+function collect(){
+  var keepTime=function(old,d){var t=splitDate(old).t||"00:00";return d?d+"T"+t:"";};
+  state.greeting=$("f-greeting").value.trim(); state.headline=$("f-headline").value.trim(); state.heroLine=$("f-heroline").value.trim();
+  state.together=keepTime(state.together,$("f-together").value); state.closing=$("f-closing").value.trim();
+  var sdate=$("f-seal-date").value, stime=$("f-seal-time").value||"00:00";
+  state.seal={on:$("f-seal-on").checked,opensAt:sdate?sdate+"T"+stime:"",line:$("f-seal-line").value.trim()};
+  state.letter={greeting:$("f-l-greeting").value.trim(),signature:$("f-l-sign").value.trim(),
+    body:$("f-l-body").value.split(/\n\s*\n/).map(function(s){return s.trim();}).filter(Boolean)};
+  state.nextMoon={month:$("f-n-month").value.trim(),title:$("f-n-title").value.trim(),text:$("f-n-text").value.trim()};
+  state.heart={hint:$("f-h-hint").value.trim(),holding:$("f-h-holding").value.trim(),over:$("f-h-over").value.trim(),
+    early:$("f-h-early").value.trim(),done:$("f-h-done").value.trim()};
+  state.reasonsIntro=$("f-j-intro").value.trim(); state.reasons=lines($("f-reasons").value);
+  state.question={ask:$("f-q-ask").value.trim(),yes:$("f-q-yes").value.trim(),no:$("f-q-no").value.trim(),
+    dodges:lines($("f-q-dodges").value),giveIn:$("f-q-give").value.trim(),replyTitle:$("f-q-rtitle").value.trim(),reply:$("f-q-reply").value.trim()};
+  state.lantern={placeholder:$("f-w-ph").value.trim(),sent:$("f-w-sent").value.trim()};
+  state.music={url:$("f-m-url").value.trim(),title:$("f-m-title").value.trim()||"Play our song"};
+  return state;
+}
+function counts(){
+  $("month-count").textContent=state.months.length; $("photo-count").textContent=state.photos.length;
+  $("coupon-count").textContent=state.coupons.length; $("reason-count").textContent=lines($("f-reasons").value).length;
+}
+$("f-reasons").addEventListener("input",counts);
+function sealStatus(){
+  var n=$("seal-status");
+  if(!$("f-seal-on").checked){n.textContent="Not sealed. Anyone with the link sees everything right now.";return;}
+  var d=$("f-seal-date").value,t=$("f-seal-time").value||"00:00";
+  if(!d){n.textContent="Pick a date, or it won't seal at all.";return;}
+  var when=new Date(d+"T"+t);
+  if(isNaN(when.getTime())){n.textContent="That date and time don't make sense.";return;}
+  var mins=Math.round((when-new Date())/60000);
+  var pretty=when.toLocaleString(undefined,{weekday:"long",day:"numeric",month:"long",hour:"numeric",minute:"2-digit"});
+  n.textContent=mins>0?"Opens "+pretty+", about "+(mins>2880?Math.round(mins/1440)+" days":(mins>120?Math.round(mins/60)+" hours":mins+" minutes"))+" from now."
+    :"That moment has passed, so the page is open now.";
+}
+["f-seal-on","f-seal-date","f-seal-time"].forEach(function(id){$(id).addEventListener("input",sealStatus);$(id).addEventListener("change",sealStatus);});
+
+/* ---------- lists ---------- */
+function moveBtns(i){
+  return '<span class="actions"><button class="tiny" type="button" data-a="up" data-i="'+i+'">Up</button>'+
+    '<button class="tiny" type="button" data-a="down" data-i="'+i+'">Down</button>'+
+    '<button class="tiny danger" type="button" data-a="del" data-i="'+i+'">Remove</button></span>';
+}
+function wire(box,key,redraw){
+  box.querySelectorAll("[data-f]").forEach(function(inp){
+    inp.addEventListener("input",function(){state[key][+inp.dataset.i][inp.dataset.f]=inp.value;});
+  });
+  box.querySelectorAll("button[data-a]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var i=+b.dataset.i,a=b.dataset.a,arr=state[key];
+      if(a==="del")arr.splice(i,1);
+      if(a==="up"&&i>0)arr.splice(i-1,0,arr.splice(i,1)[0]);
+      if(a==="down"&&i<arr.length-1)arr.splice(i+1,0,arr.splice(i,1)[0]);
+      redraw();counts();
+    });
+  });
+}
+function drawMonths(){
+  var box=$("months");box.innerHTML="";
+  state.months.forEach(function(m,i){
+    var d=document.createElement("div");d.className="item";
+    d.innerHTML='<div class="item-head"><b>Moon '+(i+1)+'</b>'+moveBtns(i)+'</div>'+
+      '<div class="row two"><div><label>Month</label><input data-f="month" data-i="'+i+'" value="'+esc(m.month)+'"></div>'+
+      '<div><label>Title</label><input data-f="title" data-i="'+i+'" value="'+esc(m.title)+'"></div></div>'+
+      '<textarea data-f="text" data-i="'+i+'" style="min-height:64px" placeholder="What that month was like">'+esc(m.text)+'</textarea>';
+    box.appendChild(d);
+  });
+  wire(box,"months",drawMonths);
+}
+$("add-month").addEventListener("click",function(){state.months.push({month:"",title:"",text:""});drawMonths();counts();});
+
+function drawCoupons(){
+  var box=$("coupons");box.innerHTML="";
+  state.coupons.forEach(function(c,i){
+    var d=document.createElement("div");d.className="item";
+    d.innerHTML='<div class="item-head"><b>Card '+(i+1)+'</b>'+moveBtns(i)+'</div>'+
+      '<div class="row"><div><label>What it is good for</label><input data-f="title" data-i="'+i+'" value="'+esc(c.title)+'"></div></div>'+
+      '<div class="row two"><div><label>Small print</label><input data-f="text" data-i="'+i+'" value="'+esc(c.text)+'"></div>'+
+      '<div><label>Handwritten line</label><input data-f="valid" data-i="'+i+'" value="'+esc(c.valid)+'"></div></div>';
+    box.appendChild(d);
+  });
+  wire(box,"coupons",drawCoupons);
+}
+$("add-coupon").addEventListener("click",function(){state.coupons.push({title:"",text:"",valid:"Valid forever"});drawCoupons();counts();});
+
+/* ---------- photos ---------- */
+function drawPhotos(){
+  var box=$("photos");box.innerHTML="";
+  state.photos.forEach(function(p,i){
+    var d=document.createElement("div");d.className="item photo-item";
+    var src=previews.get(p)||(p._data?"data:image/jpeg;base64,"+p._data:p.src)||"";
+    d.innerHTML='<div class="thumb">'+(src?'<img src="'+esc(src)+'" alt="">':"")+'</div><div>'+
+      '<div class="item-head"><b>Photo '+(i+1)+(p._data?" · new":"")+'</b>'+moveBtns(i)+'</div>'+
+      '<input data-f="caption" data-i="'+i+'" placeholder="Short caption, written on the polaroid" value="'+esc(p.caption)+'"></div>';
+    box.appendChild(d);
+  });
+  wire(box,"photos",drawPhotos);
+}
+function shrink(file){
+  return new Promise(function(res,rej){
+    var img=new Image(),url=URL.createObjectURL(file);
+    img.onload=function(){
+      var max=1400,s=Math.min(1,max/Math.max(img.width,img.height)),c=document.createElement("canvas");
+      c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);
+      res(c.toDataURL("image/jpeg",0.84));
+    };
+    img.onerror=function(){URL.revokeObjectURL(url);rej(new Error("Could not read "+file.name+". If it is a HEIC photo from an iPhone, export it as JPEG first."));};
+    img.src=url;
+  });
+}
+function addFiles(files){
+  var list=Array.prototype.slice.call(files).filter(function(f){return /^image\//.test(f.type)||/\.(jpe?g|png|webp|heic)$/i.test(f.name);});
+  if(!list.length){log("Those didn't look like photos.","err");return;}
+  Promise.all(list.map(function(f){
+    return shrink(f).then(function(dataUrl){
+      var ph={src:"",caption:"",_data:dataUrl.split(",")[1],
+        _name:f.name.replace(/\.[^.]+$/,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,32)||"photo"};
+      previews.set(ph,dataUrl); state.photos.push(ph);
+      log("Added "+f.name+" ("+Math.round(dataUrl.length*0.75/1024)+" KB after shrinking).");
+    }).catch(function(e){log(e.message,"err");});
+  })).then(function(){drawPhotos();counts();});
+}
+function dropZone(zone,input,onFiles){
+  zone.addEventListener("click",function(e){if(e.target!==input)input.click();});
+  input.addEventListener("change",function(){onFiles(input.files);input.value="";});
+  ["dragenter","dragover"].forEach(function(ev){zone.addEventListener(ev,function(e){e.preventDefault();zone.classList.add("over");});});
+  ["dragleave","drop"].forEach(function(ev){zone.addEventListener(ev,function(e){e.preventDefault();zone.classList.remove("over");});});
+  zone.addEventListener("drop",function(e){if(e.dataTransfer&&e.dataTransfer.files)onFiles(e.dataTransfer.files);});
+}
+dropZone($("drop"),$("file"),addFiles);
+
+/* ---------- music ---------- */
+var AUDIO_OK=/\.(mp3|m4a|aac|wav|ogg|oga|opus)$/i;
+function mb(b){return (b/1048576).toFixed(1)+" MB";}
+function slug(n){return n.replace(/\.[^.]+$/,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"our-song";}
+dropZone($("drop-music"),$("file-music"),function(files){
+  var f=files&&files[0]; if(!f)return;
+  if(!AUDIO_OK.test(f.name)){log("That file type won't play in a browser. Use mp3, m4a, wav or ogg.","err");return;}
+  if(f.size>45*1048576){log("That file is "+mb(f.size)+", too big to send to GitHub this way. Export a smaller mp3.","err");return;}
+  var r=new FileReader();
+  r.onload=function(){
+    var ext=(f.name.match(/\.[^.]+$/)||[".mp3"])[0].toLowerCase();
+    pendingAudio={path:"music/"+slug(f.name)+ext,data:String(r.result).split(",")[1],size:f.size,name:f.name};
+    $("f-m-url").value=pendingAudio.path;
+    if(!$("f-m-title").value.trim())$("f-m-title").value="Play our song";
+    $("music-status").innerHTML='<span class="pill">Ready to upload</span> '+esc(f.name)+" · "+mb(f.size);
+    log("Song ready: "+f.name+" ("+mb(f.size)+"). It uploads when you press Publish.","ok");
+    if(f.size>12*1048576)log(mb(f.size)+" is a slow download on mobile data. A 128 kbps mp3 is plenty.");
+  };
+  r.onerror=function(){log("Could not read that file.","err");};
+  r.readAsDataURL(f);
+});
+$("clear-music").addEventListener("click",function(){
+  pendingAudio=null;$("f-m-url").value="";$("music-status").textContent="";
+  log("Song removed. Publish to take the button off the site.");
+});
+$("test-music").addEventListener("click",function(){
+  var u=$("f-m-url").value.trim();
+  if(!u){log("Put a song in first.","err");return;}
+  if(/youtu\.be|youtube\.com|spotify\.com|soundcloud\.com|music\.apple\.com/i.test(u)){log("That's a streaming page, not an audio file. Drop an mp3 into the box instead.","err");return;}
+  if(pendingAudio&&u===pendingAudio.path){log("That song isn't on GitHub yet. Publish first, then test it.","err");return;}
+  log("Testing "+u+" ...");
+  var a=new Audio(),done=false;
+  var t=setTimeout(function(){if(!done){done=true;log("Still nothing after 10 seconds. A very large file can do that, otherwise the path is wrong.","err");}},10000);
+  a.addEventListener("loadedmetadata",function(){if(done)return;done=true;clearTimeout(t);log("Found it, and it plays. "+(a.duration?Math.round(a.duration)+" seconds long.":""),"ok");});
+  a.addEventListener("error",function(){if(done)return;done=true;clearTimeout(t);log("Nothing playable there. Either it hasn't uploaded yet, or the capitals don't match: GitHub treats Music/ and music/ as different folders.","err");});
+  a.preload="metadata";a.src=u.replace(/ /g,"%20");a.load();
+});
+
+/* ---------- draft + download ---------- */
+function clean(){
+  var c=JSON.parse(JSON.stringify(collect()));
+  c.photos=(c.photos||[]).filter(function(p){return p.src;}).map(function(p){return {src:p.src,caption:p.caption||""};});
+  return c;
+}
+function asJs(obj){return "window.SITE_CONTENT = "+JSON.stringify(obj,null,2)+";\n";}
+$("save-draft").addEventListener("click",function(){
+  collect();store(LS_DRAFT,JSON.stringify(state));saveConf();
+  $("draft-note").textContent="Draft saved "+new Date().toLocaleTimeString();
+  log("Draft saved in this browser.","ok");
+  if(pendingAudio)log("The song isn't kept in a draft, it's too big. Publish before you close the tab.","err");
+});
+$("download").addEventListener("click",function(){
+  var blob=new Blob([asJs(clean())],{type:"text/javascript"}),a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);a.download="content.js";a.click();
+  log("content.js downloaded. Upload it to the repo in place of the old one.","ok");
+  var n=state.photos.filter(function(p){return p._data;}).length;
+  if(n)log(n+" new photo(s) are left out of that file. Use Publish to GitHub for photos.","err");
+});
+$("reload").addEventListener("click",function(){
+  if(!confirm("Throw away what's on screen and reload from the live site?"))return;
+  store(LS_DRAFT,null);pendingAudio=null;$("music-status").textContent="";fetchLive();
+});
+
+/* ---------- publish ---------- */
+function conf(){return {owner:$("gh-owner").value.trim(),repo:$("gh-repo").value.trim(),branch:$("gh-branch").value.trim()||"main",token:$("gh-token").value.trim()};}
+function gh(path,opts){
+  var c=conf();
+  return fetch("https://api.github.com/repos/"+encodeURIComponent(c.owner)+"/"+encodeURIComponent(c.repo)+"/"+path,
+    Object.assign({headers:{"Authorization":"Bearer "+c.token,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"}},opts||{}));
+}
+function ghJson(path,opts){
+  return gh(path,opts).then(function(r){return r.json().catch(function(){return {};}).then(function(j){
+    if(!r.ok){var m=(j&&j.message)||("GitHub said "+r.status);
+      if(r.status===401)m="GitHub didn't accept the token. Check it was copied in full and hasn't expired.";
+      if(r.status===403||r.status===404)m+=". Check the username and repository, and that the token has Contents: Read and write for this repo.";
+      throw new Error(m);}
+    return j;});});
+}
+function getSha(path,branch){
+  return gh("contents/"+path+"?ref="+encodeURIComponent(branch)).then(function(r){
+    if(r.status===404)return null;
+    if(!r.ok)throw new Error("GitHub said "+r.status+" when checking "+path);
+    return r.json().then(function(j){return j.sha;});
+  });
+}
+function put(path,b64,message,branch,sha){
+  var body={message:message,content:b64,branch:branch};if(sha)body.sha=sha;
+  return ghJson("contents/"+path,{method:"PUT",body:JSON.stringify(body)});
+}
+/* files over about a megabyte go through the git data API */
+function putBig(path,b64,message,branch){
+  var head,tree;
+  return ghJson("git/ref/heads/"+encodeURIComponent(branch)).then(function(ref){head=ref.object.sha;return ghJson("git/commits/"+head);})
+  .then(function(c){tree=c.tree.sha;return ghJson("git/blobs",{method:"POST",body:JSON.stringify({content:b64,encoding:"base64"})});})
+  .then(function(blob){return ghJson("git/trees",{method:"POST",body:JSON.stringify({base_tree:tree,tree:[{path:path,mode:"100644",type:"blob",sha:blob.sha}]})});})
+  .then(function(t){return ghJson("git/commits",{method:"POST",body:JSON.stringify({message:message,tree:t.sha,parents:[head]})});})
+  .then(function(c){return ghJson("git/refs/heads/"+encodeURIComponent(branch),{method:"PATCH",body:JSON.stringify({sha:c.sha})});});
+}
+var busy=false;
+function publish(){
+  if(busy)return;
+  var c=conf();
+  if(!c.owner||!c.repo||!c.token){log("Fill in the GitHub username, repository and token first.","err");return;}
+  busy=true;saveConf();collect();
+  $("log").textContent="";log("Publishing to "+c.owner+"/"+c.repo+" ("+c.branch+") ...");
+  var stamp=Date.now(),chain=Promise.resolve();
+  state.photos.filter(function(p){return p._data;}).forEach(function(p,k){
+    chain=chain.then(function(){
+      var path="images/"+(p._name||"photo")+"-"+stamp+"-"+(k+1)+".jpg";
+      log("Uploading "+path+" ...");
+      return put(path,p._data,"Add photo "+path,c.branch,null).then(function(){
+        previews.set(p,"data:image/jpeg;base64,"+p._data);p.src=path;delete p._data;delete p._name;log("Uploaded "+path,"ok");
+      });
+    });
+  });
+  if(pendingAudio){
+    chain=chain.then(function(){
+      log("Uploading "+pendingAudio.path+" ("+mb(pendingAudio.size)+"). This one takes a moment ...");
+      return putBig(pendingAudio.path,pendingAudio.data,"Add "+pendingAudio.path,c.branch).then(function(){
+        log("Uploaded "+pendingAudio.path,"ok");
+        $("music-status").innerHTML='<span class="pill">On the site</span> '+esc(pendingAudio.path);pendingAudio=null;
+      });
+    });
+  }
+  chain.then(function(){
+    return getSha("content.js",c.branch).then(function(sha){return put("content.js",b64utf8(asJs(clean())),"Update content.js",c.branch,sha);});
+  }).then(function(){
+    var s=state.seal;
+    log(s.on&&s.opensAt?"Published. Still sealed until "+s.opensAt.replace("T"," ")+" on her clock.":"Published. The whole page is open to anyone with the link.","ok");
+    log("The live site refreshes in a minute or two.");
+    store(LS_DRAFT,JSON.stringify(state));drawPhotos();counts();busy=false;
+  }).catch(function(e){
+    log(e.message||"Something went wrong.","err");
+    log("Nothing else was changed. Fix that and press Publish again.","err");busy=false;
+  });
+}
+$("publish").addEventListener("click",publish);
+$("publish2").addEventListener("click",publish);
+window.addEventListener("beforeunload",function(e){
+  if(pendingAudio||(state&&state.photos.some(function(p){return p._data;}))){e.preventDefault();e.returnValue="";}
+});
+boot();
+})();
+</script>
+</body>
+</html>

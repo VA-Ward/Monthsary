@@ -1,0 +1,455 @@
+/* ============================================================
+   Eleven moons
+   Palette: midnight indigo, moonlight cream, rose, lantern gold
+   Type: Fraunces (soft) for everything said, Caveat for his handwriting
+   The sky runs from midnight at the top to dawn at the bottom.
+   ============================================================ */
+:root{
+  --night:#0C1033;
+  --deep:#151A49;
+  --dusk:#2A2160;
+  --moon:#F5EFDF;
+  --moon-2:rgba(245,239,223,.74);
+  --moon-3:rgba(245,239,223,.46);
+  --line:rgba(245,239,223,.16);
+  --line-strong:rgba(245,239,223,.32);
+  --rose:#F29BB2;
+  --rose-deep:#B8365E;
+  --lantern:#F6C36F;
+  --paper:#FBF6EC;
+  --ink:#2C2850;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --hand:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --gap:clamp(4.5rem,13vh,8.5rem);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--night);-webkit-text-size-adjust:100%;overflow-x:hidden}
+@supports (overflow:clip){
+  html,body,.hero,main{overflow-x:clip}
+}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--moon);
+  font-family:var(--serif);
+  font-optical-sizing:auto;
+  font-weight:350;
+  font-size:clamp(1.0625rem,.35vw + .98rem,1.1875rem);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  background:linear-gradient(180deg,
+    #0C1033 0%,
+    #10153F 24%,
+    #191A4C 46%,
+    #261E56 64%,
+    #3D2459 80%,
+    #6A3459 93%,
+    #8C4560 100%);
+}
+::selection{background:var(--rose);color:#2A0D1E}
+:focus-visible{outline:2px solid var(--rose);outline-offset:4px}
+button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+
+#sky,#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+#sky{z-index:0}
+#fx{z-index:50}
+.defs{position:absolute;width:0;height:0;overflow:hidden}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+.hero,main,.foot{position:relative;z-index:2}
+
+/* ---------- shared type ---------- */
+h1,h2,h3{font-weight:400;font-variation-settings:"SOFT" 100;margin:0}
+.scene h2{
+  font-size:clamp(2.4rem,9vw,3.6rem);
+  line-height:1.02;
+  letter-spacing:-.015em;
+}
+.sub{
+  margin:.9rem auto 2.75rem;
+  max-width:31ch;
+  font-style:italic;
+  color:var(--moon-2);
+}
+
+.scene{
+  max-width:40rem;
+  margin:0 auto;
+  padding:var(--gap) 1.25rem 0;
+  text-align:center;
+}
+.scene.wide{max-width:72rem}
+
+/* ---------- 1. the moon ---------- */
+.hero{
+  min-height:100svh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:4.5rem 1.25rem 3rem;
+  text-align:center;
+}
+.moon-wrap{position:relative;width:min(54vw,15.5rem);margin:0 auto 2.2rem}
+.moon{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 0 1.4rem rgba(245,239,223,.28)) drop-shadow(0 0 4.5rem rgba(245,239,223,.14))}
+.moon-halo{
+  position:absolute;left:50%;top:50%;width:190%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,239,223,.12),rgba(245,239,223,.04) 40%,transparent 66%);
+  pointer-events:none;
+}
+.greeting{
+  font-family:var(--hand);font-weight:600;
+  font-size:clamp(1.7rem,6.5vw,2.2rem);line-height:1.15;
+  color:var(--rose);margin:0 0 .35rem;
+}
+.headline{
+  font-size:clamp(3.9rem,18vw,8.75rem);
+  font-weight:380;
+  line-height:.9;
+  letter-spacing:-.03em;
+  margin:0;
+}
+.hero-line{
+  font-style:italic;font-size:clamp(1.15rem,3.4vw,1.4rem);line-height:1.5;
+  color:var(--moon-2);max-width:27ch;margin:1.3rem auto 2.4rem;
+}
+.together{max-width:30ch;margin:0 auto;color:var(--moon-2);font-variant-numeric:tabular-nums lining-nums}
+.together b{font-weight:500;color:var(--moon)}
+.milestone{margin:.8rem auto 0;max-width:32ch;font-family:var(--hand);font-size:1.5rem;line-height:1.2;color:var(--rose)}
+.milestone:empty{display:none}
+.begin{
+  display:inline-flex;flex-direction:column;align-items:center;gap:.6rem;
+  margin-top:2.8rem;color:var(--moon);text-decoration:none;font-style:italic;font-size:1.05rem;
+}
+.begin span{width:1px;height:2.6rem;background:linear-gradient(var(--moon-2),transparent)}
+
+/* the one orchestrated entrance */
+.hero > *{opacity:0;transform:translateY(10px);transition:opacity 1.2s ease,transform 1.2s ease}
+.hero > .moon-wrap{transform:none;transition:opacity 1.6s ease}
+.hero.awake > *{opacity:1;transform:none}
+.hero.awake > .greeting{transition-delay:.5s}
+.hero.awake > .headline{transition-delay:.75s}
+.hero.awake > .hero-line{transition-delay:1.1s}
+.hero.awake > .together{transition-delay:1.5s}
+.hero.awake > .milestone{transition-delay:1.7s}
+.hero.awake > .begin{transition-delay:2.1s}
+
+/* sealed */
+body.locked main,body.locked .foot,body.locked .begin,body.locked .milestone{display:none}
+.preview-flag{
+  position:fixed;top:.6rem;left:50%;translate:-50% 0;z-index:60;margin:0;
+  padding:.3rem .85rem;border-radius:999px;border:1px solid var(--line-strong);white-space:nowrap;
+  background:rgba(12,16,51,.85);font-size:.78rem;font-style:italic;color:var(--moon-2);pointer-events:none;
+}
+
+/* ---------- 2. the letter ---------- */
+.letter-stage{display:grid;grid-template-areas:"x";place-items:center;min-height:15rem}
+.envelope,.paper{grid-area:x}
+.envelope{
+  position:relative;width:min(20rem,84vw);aspect-ratio:1.55;border:0;padding:0;background:none;cursor:pointer;
+  transition:opacity .6s ease,transform .6s ease;
+}
+.env-back,.env-front,.env-flap,.env-peek{position:absolute;display:block}
+.env-back{inset:0;border-radius:5px;background:#D9CBAE;box-shadow:0 34px 60px -26px rgba(0,0,0,.75)}
+.env-peek{
+  left:7%;right:7%;top:9%;bottom:8%;border-radius:2px;z-index:2;
+  background:repeating-linear-gradient(180deg,transparent 0 13px,rgba(44,40,80,.07) 13px 14px),var(--paper);
+  transition:transform .7s cubic-bezier(.3,.7,.3,1) .6s;
+}
+.env-front{
+  inset:0;border-radius:5px;z-index:3;
+  clip-path:polygon(0 0,50% 54%,100% 0,100% 100%,0 100%);
+  background:linear-gradient(172deg,#F7EFDE 0%,#ECE1CA 100%);
+}
+.env-flap{
+  left:0;right:0;top:0;height:60%;z-index:4;transform-origin:50% 0;
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  background:linear-gradient(180deg,#F2E8D4,#E2D5B9);
+  transition:transform .75s cubic-bezier(.5,-.25,.3,1.25) .15s,z-index 0s .55s;
+}
+.wax{
+  position:absolute;left:50%;top:56%;translate:-50% -50%;z-index:5;
+  width:3.7rem;aspect-ratio:1;display:grid;place-items:center;
+  border-radius:47% 53% 50% 50%/52% 48% 52% 48%;
+  background:radial-gradient(circle at 34% 30%,#E46A88,#B4365C 55%,#7A1D3A);
+  box-shadow:0 5px 12px rgba(70,8,28,.5),inset 0 0 0 4px rgba(255,255,255,.07),inset 0 -4px 7px rgba(0,0,0,.28);
+  transition:transform .5s ease,opacity .5s ease;
+  animation:breathe 3.2s ease-in-out infinite;
+}
+.wax svg{width:44%;fill:rgba(84,10,36,.6);filter:drop-shadow(0 1px 0 rgba(255,255,255,.25))}
+@keyframes breathe{0%,100%{scale:1}50%{scale:1.06}}
+.envelope:hover .wax{animation-play-state:paused;scale:1.08}
+.envelope.opening{cursor:default}
+.envelope.opening .wax{animation:none;transform:scale(1.3) rotate(-14deg);opacity:0}
+.envelope.opening .env-flap{transform:rotateX(180deg);z-index:1}
+.envelope.opening .env-peek{transform:translateY(-46%)}
+.envelope.gone{opacity:0;transform:translateY(18px) scale(.95);pointer-events:none}
+
+.paper{
+  position:relative;z-index:2;width:min(34rem,100%);text-align:left;
+  padding:clamp(1.9rem,6vw,3rem) clamp(1.5rem,6vw,3rem);
+  background:var(--paper);color:var(--ink);border-radius:3px;
+  box-shadow:0 40px 80px -34px rgba(0,0,0,.7);
+  transform:rotate(-.5deg);
+  font-size:clamp(1.0625rem,.3vw + 1rem,1.15rem);line-height:1.7;
+}
+.paper p{margin:0 0 1.05em}
+.paper-greeting{font-family:var(--hand);font-weight:600;font-size:2.1rem;line-height:1;color:var(--rose-deep)}
+.paper-sign{font-family:var(--hand);font-weight:600;font-size:2.1rem;line-height:1.1;color:var(--rose-deep);text-align:right;margin:1.7rem 0 0 !important}
+.paper.in{animation:unfold .9s cubic-bezier(.2,.8,.2,1) both}
+.paper.in .ink{animation:ink .9s ease both;animation-delay:calc(var(--i) * 170ms + 350ms)}
+@keyframes unfold{from{opacity:0;transform:translateY(30px) rotate(-.5deg) scaleY(.9)}to{opacity:1;transform:rotate(-.5deg)}}
+@keyframes ink{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ---------- 3. month by month ---------- */
+.ring{position:relative;width:min(88vw,25rem);aspect-ratio:1;margin:0 auto}
+.orbit{position:absolute;inset:0;width:100%;height:100%}
+.orbit circle{fill:none;stroke:var(--line-strong);stroke-width:.25;stroke-dasharray:.5 1.6}
+.moon-dot{
+  position:absolute;left:var(--x);top:var(--y);translate:-50% -50%;
+  width:15.5%;aspect-ratio:1;border:0;padding:0;background:none;border-radius:50%;cursor:pointer;
+}
+.moon-dot svg{display:block;width:100%;height:100%;overflow:visible;transition:filter .6s}
+.md-dark{fill:#1A1F4C;stroke:rgba(245,239,223,.38);stroke-width:1}
+.md-lit{fill:url(#g-moon)}
+.md-num{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--hand);font-weight:600;font-size:clamp(1.05rem,4.4vw,1.35rem);color:var(--moon-2);
+  transition:opacity .5s;pointer-events:none;
+}
+.moon-dot.lit .md-num{opacity:0}
+.moon-dot.lit svg{filter:drop-shadow(0 0 7px rgba(245,239,223,.5))}
+.moon-dot::before,.moon-dot::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.moon-dot.current::before{inset:-13%;border:1.5px solid var(--rose)}
+.moon-dot.next::after{inset:-14%;border:1px solid var(--rose);animation:ping 2.4s ease-out infinite}
+@keyframes ping{0%{transform:scale(.85);opacity:.95}100%{transform:scale(1.3);opacity:0}}
+.moon-dot.future .md-dark{fill:rgba(26,31,76,.4);stroke-dasharray:3 4;stroke:rgba(245,239,223,.45)}
+.moon-dot.future .md-num{color:var(--moon-3)}
+.moon-dot.future.ready .md-num{color:var(--rose)}
+.moon-dot.future.ready::after{inset:-14%;border:1px solid var(--lantern);animation:ping 2.8s ease-out infinite}
+
+.ring-centre{
+  position:absolute;inset:24%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;pointer-events:none;
+}
+.rc-num{font-size:clamp(3.8rem,19vw,6.2rem);line-height:.9;font-variation-settings:"SOFT" 100;font-variant-numeric:lining-nums}
+.rc-num:empty{display:none}
+.rc-name{font-family:var(--hand);font-weight:600;font-size:clamp(1.3rem,5.4vw,1.75rem);line-height:1.05;color:var(--rose);max-width:9ch}
+.month-note{max-width:29rem;margin:2.2rem auto 0;min-height:7.5rem}
+.month-note h3{font-size:1.55rem;font-style:italic;line-height:1.2;margin:0 0 .45rem}
+.month-note p{margin:0;color:var(--moon-2)}
+.month-note.swap{animation:ink .6s ease both}
+
+/* ---------- 4. the photo stack ---------- */
+.stack{
+  --w:min(76vw,19rem);
+  position:relative;height:calc(var(--w) * 1.21 + 1.5rem);margin:0 auto;
+  touch-action:pan-y;outline-offset:10px;border-radius:6px;
+}
+.polaroid{
+  position:absolute;left:50%;top:0;width:var(--w);margin:0;
+  padding:.8rem .8rem 0;background:var(--paper);border-radius:3px;
+  box-shadow:0 26px 44px -20px rgba(0,0,0,.75),0 1px 0 rgba(255,255,255,.7) inset;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .45s ease;
+  user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+  cursor:grab;will-change:transform;
+}
+.polaroid.dragging{cursor:grabbing;transition:none}
+.shot{aspect-ratio:1;overflow:hidden;background:#D8CEBC}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:50% 32%;display:block;pointer-events:none;-webkit-user-drag:none}
+.polaroid figcaption{
+  display:flex;align-items:center;justify-content:center;min-height:3.9rem;padding:.55rem .3rem .7rem;
+  font-family:var(--hand);font-weight:600;font-size:clamp(1.4rem,6vw,1.65rem);line-height:1.05;color:var(--ink);text-align:center;
+}
+.stack-nav{display:flex;align-items:center;justify-content:center;gap:1.4rem;margin-top:1.1rem}
+.round{
+  width:2.9rem;height:2.9rem;border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  border:1px solid var(--line-strong);background:rgba(12,16,51,.35);color:var(--moon);
+  transition:background .25s,border-color .25s;
+}
+.round svg{width:1.15rem;height:1.15rem;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.round:hover{border-color:var(--rose);background:rgba(242,155,178,.12)}
+.stack-count{min-width:5rem;font-family:var(--hand);font-weight:600;font-size:1.45rem;color:var(--moon-2)}
+
+/* ---------- 5. hold the heart ---------- */
+.heart{
+  display:block;margin:0 auto;width:min(56vw,14rem);aspect-ratio:108/100;border:0;padding:0;background:none;cursor:pointer;
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+  transform:scale(var(--s,1));transition:transform .2s ease;border-radius:30%;
+}
+.heart svg{display:block;width:100%;height:100%;overflow:visible;transition:filter .4s}
+.heart-empty{fill:rgba(242,155,178,.08)}
+.heart-liquid{fill:url(#g-heart)}
+.heart-line{fill:none;stroke:var(--rose);stroke-width:1.6;stroke-linejoin:round}
+.heart.holding svg{filter:drop-shadow(0 0 16px rgba(242,155,178,.5))}
+.heart.full svg{filter:drop-shadow(0 0 26px rgba(242,155,178,.75))}
+.heart-pct{
+  margin:1.4rem 0 0;line-height:1;font-size:clamp(2.7rem,11vw,3.8rem);
+  font-variation-settings:"SOFT" 100;font-variant-numeric:tabular-nums lining-nums;
+}
+.heart-msg{margin:.7rem auto 0;max-width:24ch;min-height:2.4rem;font-family:var(--hand);font-weight:600;font-size:1.65rem;line-height:1.15;color:var(--rose)}
+
+/* ---------- 6. the jar ---------- */
+.jar-stage{display:flex;flex-direction:column;align-items:center}
+.jar{position:relative;width:min(46vw,11rem);aspect-ratio:160/200;border:0;padding:0;background:none;cursor:pointer;transform-origin:50% 100%;border-radius:18px}
+.jar svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.jar-back path{fill:rgba(245,239,223,.06)}
+.jar-front .glass{fill:none;stroke:rgba(245,239,223,.58);stroke-width:2}
+.jar-front .shine{fill:none;stroke:rgba(255,255,255,.34);stroke-width:4;stroke-linecap:round}
+.jar-front .shine.soft{stroke:rgba(255,255,255,.16);stroke-width:2.5}
+.jar-front .lid{fill:url(#g-lid)}
+.jar-front .lid-lines{stroke:rgba(90,60,20,.35);stroke-width:1.2}
+.jar-hearts{position:absolute;left:19%;right:19%;top:35%;bottom:4.5%;overflow:hidden;border-radius:0 0 22px 22px}
+.paper-heart{position:absolute;left:var(--x);bottom:var(--y);width:19%;aspect-ratio:1;transform:translateX(-50%) rotate(var(--r));transition:opacity .3s}
+.paper-heart svg{display:block;width:100%;height:100%;fill:var(--c);filter:drop-shadow(0 1px 1px rgba(0,0,0,.28))}
+.paper-heart.gone{opacity:0}
+.jar.wobble{animation:wobble .55s ease}
+@keyframes wobble{0%,100%{transform:rotate(0)}20%{transform:rotate(-5deg)}40%{transform:rotate(4deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(1.5deg)}}
+.fly-heart{position:fixed;z-index:45;pointer-events:none}
+.fly-heart svg{display:block;width:100%;height:100%}
+.note{
+  position:relative;width:min(20rem,88vw);margin:2.2rem auto 0;padding:1.5rem 1.5rem 1.6rem;
+  background:var(--paper);color:var(--ink);border-radius:2px;
+  box-shadow:0 22px 40px -22px rgba(0,0,0,.7);transform:rotate(var(--nr,-1.5deg));
+}
+.note::before{
+  content:"";position:absolute;top:-.75rem;left:50%;width:5.2rem;height:1.45rem;translate:-50% 0;rotate:-3deg;
+  background:rgba(242,155,178,.78);box-shadow:0 1px 2px rgba(0,0,0,.15);
+}
+.note-text{margin:0;font-family:var(--hand);font-weight:600;font-size:clamp(1.5rem,6vw,1.85rem);line-height:1.18}
+.note.pop{animation:pop .6s cubic-bezier(.2,.9,.3,1.3) both}
+@keyframes pop{from{opacity:0;transform:translateY(-34px) scale(.6) rotate(-9deg)}to{opacity:1;transform:rotate(var(--nr,-1.5deg))}}
+.jar-count{margin:1.3rem 0 0;font-family:var(--hand);font-weight:600;font-size:1.45rem;color:var(--moon-2)}
+
+/* ---------- 7. scratch cards ---------- */
+.tickets{
+  display:grid;gap:1.3rem;max-width:64rem;margin:0 auto;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,18.5rem),1fr));
+}
+.ticket{
+  position:relative;height:10.5rem;border-radius:10px;overflow:hidden;
+  background:var(--paper);color:var(--ink);text-align:left;
+  box-shadow:0 22px 40px -24px rgba(0,0,0,.8);
+  -webkit-mask:radial-gradient(circle at 0 50%,transparent 11px,#000 11.5px) left/51% 100% no-repeat,
+               radial-gradient(circle at 100% 50%,transparent 11px,#000 11.5px) right/51% 100% no-repeat;
+          mask:radial-gradient(circle at 0 50%,transparent 11px,#000 11.5px) left/51% 100% no-repeat,
+               radial-gradient(circle at 100% 50%,transparent 11px,#000 11.5px) right/51% 100% no-repeat;
+}
+.ticket-face{position:absolute;inset:0;display:grid;grid-template-columns:3.9rem 1fr}
+.ticket-stub{display:grid;place-items:center;border-right:2px dashed rgba(44,40,80,.2)}
+.ticket-stub svg{width:1.5rem;fill:var(--rose-deep);opacity:.85}
+.ticket-body{display:flex;flex-direction:column;justify-content:center;padding:1rem 1.3rem 1rem 1.1rem}
+.ticket h3{font-size:1.28rem;font-weight:500;line-height:1.15;margin:0 0 .3rem}
+.ticket p{margin:0;font-size:.98rem;line-height:1.4;color:rgba(44,40,80,.8)}
+.ticket .valid{margin-top:.45rem;font-family:var(--hand);font-weight:600;font-size:1.3rem;line-height:1;color:var(--rose-deep)}
+.foil{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair;touch-action:pan-y;transition:opacity .7s ease;border-radius:10px}
+.foil.gone{opacity:0;pointer-events:none}
+.ticket.revealed::after{
+  content:"Yours";position:absolute;right:1rem;bottom:.8rem;
+  font-family:var(--hand);font-weight:600;font-size:1.35rem;line-height:1;color:var(--rose-deep);
+  border:2px solid currentColor;border-radius:6px;padding:.1rem .45rem .2rem;rotate:-8deg;opacity:.85;
+  animation:stamp .45s cubic-bezier(.2,.9,.3,1.5) .35s both;
+}
+@keyframes stamp{from{opacity:0;scale:1.8}to{opacity:.85;scale:1}}
+
+/* ---------- 8. the question ---------- */
+.ask-q{font-size:clamp(2.1rem,8vw,3.3rem);line-height:1.08;max-width:15ch;margin:0 auto}
+.ask-zone{position:relative;min-height:12.5rem;display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1.5rem}
+.btn-yes{
+  padding:.95rem 2.1rem;border:0;border-radius:999px;cursor:pointer;
+  background:var(--rose);color:#3A1027;font-size:1.15rem;font-weight:500;
+  box-shadow:0 12px 30px -12px rgba(242,155,178,.75);
+  transform:scale(var(--grow,1));transition:transform .35s cubic-bezier(.2,.9,.3,1.4),background .25s;
+  position:relative;z-index:2;
+}
+.btn-yes:hover{background:#F7B6C6}
+.btn-no{
+  padding:.85rem 1.6rem;border-radius:999px;cursor:pointer;white-space:nowrap;
+  border:1px solid var(--line-strong);background:rgba(12,16,51,.3);color:var(--moon-2);font-size:1.05rem;
+}
+.btn-no.loose{position:absolute;margin:0;z-index:3;transition:left .38s cubic-bezier(.2,.9,.3,1.2),top .38s cubic-bezier(.2,.9,.3,1.2)}
+.ask-reply{padding-top:1.5rem}
+.ask-reply.in{animation:ink .9s ease both}
+.reply-title{margin:0;font-size:clamp(2.6rem,10vw,3.8rem);line-height:1;font-variation-settings:"SOFT" 100}
+.reply-text{margin:1rem auto 0;max-width:27ch;font-style:italic;font-size:1.2rem;color:var(--moon-2)}
+
+/* ---------- 9. the lantern ---------- */
+.lantern-stage{position:relative;height:17rem;display:flex;align-items:flex-end;justify-content:center;margin:0 0 3.2rem}
+.lantern{position:relative;width:7.5rem;transition:opacity .8s ease}
+.lantern-art{display:block;width:100%;height:auto;overflow:visible}
+.l-paper{fill:#EADCC2;opacity:.9}
+.l-lit{fill:url(#g-lantern);opacity:0;transition:opacity 1.3s ease}
+.l-ribs{fill:none;stroke:rgba(120,70,40,.22);stroke-width:1}
+.l-band{fill:none;stroke:rgba(120,70,40,.45);stroke-width:2.2;stroke-linecap:round}
+.l-flame{fill:#FFF0C2;opacity:0;transition:opacity .6s ease;transform-box:fill-box;transform-origin:50% 100%}
+.lantern-glow{
+  position:absolute;left:50%;top:55%;width:280%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(246,195,111,.5),rgba(246,195,111,.12) 38%,transparent 64%);
+  opacity:0;transition:opacity 1.3s ease;
+}
+.lantern.lit .l-lit,.lantern.lit .lantern-glow,.lantern.lit .l-flame{opacity:1}
+.lantern.lit .l-flame{animation:flicker 1.3s ease-in-out infinite}
+@keyframes flicker{0%,100%{transform:scale(1,1)}35%{transform:scale(.9,1.12)}65%{transform:scale(1.08,.94)}}
+.lantern-tag{
+  position:absolute;left:50%;top:100%;translate:-50% 0;margin-top:.4rem;max-width:15rem;
+  font-family:var(--hand);font-weight:600;font-size:1.3rem;line-height:1.1;color:var(--moon);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.lantern.fly{z-index:20;pointer-events:none;animation:float-away 7.5s cubic-bezier(.45,.05,.55,.95) forwards}
+@keyframes float-away{
+  0%{transform:translate(0,0) scale(1) rotate(0)}
+  18%{transform:translate(-10px,-11vh) scale(.94) rotate(-2deg)}
+  40%{transform:translate(14px,-25vh) scale(.78) rotate(2deg)}
+  62%{transform:translate(-12px,-40vh) scale(.6) rotate(-2deg);opacity:1}
+  100%{transform:translate(10px,-62vh) scale(.3) rotate(1deg);opacity:0}
+}
+.lantern.back{animation:ink 1s ease both}
+.mini{
+  position:absolute;bottom:12%;width:.75rem;height:.95rem;border-radius:42% 42% 30% 30%;pointer-events:none;
+  background:radial-gradient(circle at 50% 72%,#FFE6AE,#F29A5A 72%);
+  box-shadow:0 0 14px 5px rgba(246,195,111,.42);opacity:0;
+  animation:mini-rise var(--t,10s) ease-in var(--d,0s) forwards;
+}
+@keyframes mini-rise{0%{transform:translate(0,0) scale(1);opacity:0}10%{opacity:1}100%{transform:translate(var(--dx,0),-58vh) scale(.45);opacity:0}}
+.wish-form{display:flex;flex-wrap:wrap;justify-content:center;gap:.65rem;max-width:27rem;margin:0 auto}
+.wish-form input{
+  flex:1 1 13rem;min-width:0;padding:.5rem 1.15rem;border-radius:999px;
+  border:1px solid var(--line-strong);background:rgba(12,16,51,.4);color:var(--moon);
+  font-family:var(--hand);font-weight:600;font-size:1.55rem;line-height:1.3;
+}
+.wish-form input::placeholder{color:var(--moon-3)}
+.wish-form input:focus{outline:2px solid var(--lantern);outline-offset:2px}
+.btn-wish{
+  padding:.85rem 1.6rem;border:0;border-radius:999px;cursor:pointer;
+  background:var(--lantern);color:#3C2410;font-size:1.05rem;font-weight:500;
+  box-shadow:0 12px 30px -14px rgba(246,195,111,.85);
+}
+.btn-wish:hover{background:#F9D08A}
+.btn-wish:disabled{opacity:.55;cursor:default}
+.wish-after{margin:1.6rem auto 0;max-width:28ch;font-style:italic;font-size:1.2rem}
+.wish-after.in{animation:ink .9s ease both}
+
+/* ---------- footer + music ---------- */
+.foot{text-align:center;padding:var(--gap) 1.25rem 6.5rem}
+.foot p{margin:0 0 1.1rem;font-family:var(--hand);font-weight:600;font-size:1.65rem;color:var(--moon)}
+.top-link{color:var(--moon-2);font-style:italic;text-decoration:underline;text-underline-offset:.3em;text-decoration-color:var(--line-strong)}
+.top-link:hover{color:var(--moon);text-decoration-color:var(--rose)}
+
+.music{
+  position:fixed;right:max(1rem,env(safe-area-inset-right));bottom:max(1rem,env(safe-area-inset-bottom));z-index:40;
+  display:flex;align-items:center;gap:.55rem;padding:.62rem 1.05rem;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line-strong);background:rgba(12,16,51,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  color:var(--moon);font-size:.95rem;
+}
+.music[hidden]{display:none}
+.music-dot{width:.55rem;height:.55rem;border-radius:50%;background:var(--rose);flex:none}
+.music[aria-pressed="true"] .music-dot{animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.25)}}
+
+@media (min-width:900px){
+  .scene h2{font-size:3.6rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;transition-delay:0s !important}
+  .lantern.fly{animation:none;opacity:0}
+}
